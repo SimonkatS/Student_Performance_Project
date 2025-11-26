@@ -57,12 +57,12 @@ dataset['Cluster'] = kmean.labels_
 print("Model training complete.")
 
 
-# STATISTICAL SUMMARY
-print("\n--- Statistical Summary for Each Cluster ---")
+# stats
+print("\nstatistical summary for each cluster")
 print(dataset.groupby('Cluster')[features].describe().T.round(2))
 
 
-# CLUSTER VISUALIZATION
+# cluster visualize
 print("\nGenerating Pairplot... (This shows relationships between all variables)")
 # 'hue' colors the dots by Cluster
 # 'vars' ensures we only plot the relevant columns
@@ -71,19 +71,16 @@ sns.pairplot(dataset, hue='Cluster', vars=features, palette='bright', diag_kind=
 plt.show()
 
 
-# NEAREST NEIGHBORS
+# Nearest neighboor with sklearn
 nn_model = NearestNeighbors(n_neighbors=4, algorithm='auto')
 nn_model.fit(X_scaled)
 
-# NEW STUDENT ENTRY LOOP 
-
+#New student entry
 print("\n--- New student entry ---")
- 
 while True:
     user_choice = input("\nDo you want to enter a new student? (y/n): ").lower()
     if user_choice != 'y':
         break
-
     try:
         print("Enter student details:")
         f1 = float(input(f" - {features[0]}: "))
@@ -91,16 +88,16 @@ while True:
         f3 = float(input(f" - {features[2]}: "))
         f4 = float(input(f" - {features[3]}: "))
 
-        # Prepare the data
+        # Prep the data
         new_data = np.array([[f1, f2, f3, f4]])
-        # Scale it using the existing scaler
+        # Normalize
         new_data_scaled = scaler.transform(new_data)
 
-        # Predict Cluster
+        # Predicting
         predicted_cluster = kmean.predict(new_data_scaled)[0]
         print(f"\n---> This student belongs to Group (Cluster): {predicted_cluster}")
 
-        # Find Neighbors
+        # Find Neighboor
         distances, indices = nn_model.kneighbors(new_data_scaled)
         
         print(f"---> The 3 most similar students in the database are:")
@@ -111,6 +108,5 @@ while True:
         print("Invalid input! Please enter numbers only.")
     except Exception as e:
         print(f"An error occurred: {e}")
-
 print("Exiting program.")
 
