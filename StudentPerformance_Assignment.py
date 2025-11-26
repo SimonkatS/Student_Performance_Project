@@ -42,7 +42,7 @@ plt.show()
 
 while True:
     try:
-        k = int(input("Enter the number of clusters (e.g., 2, 3...): "))
+        k = int(input("Enter the number of clusters (e.g. 1,2,3,4): "))
         if k > 0:
             break
         else:
@@ -56,37 +56,31 @@ kmean.fit(X_scaled)
 dataset['Cluster'] = kmean.labels_
 print("Model training complete.")
 
-
 # stats
 print("\nstatistical summary for each cluster")
 print(dataset.groupby('Cluster')[features].describe().T.round(2))
 
-
 # cluster visualize
-print("\nGenerating Pairplot... (This shows relationships between all variables)")
-# 'hue' colors the dots by Cluster
-# 'vars' ensures we only plot the relevant columns
-# 'diag_kind' makes the diagonal graphs smooth curves instead of bars
+print("\nGenerating Pairplot(This shows relationships between all variables)")
 sns.pairplot(dataset, hue='Cluster', vars=features, palette='bright', diag_kind='kde')
 plt.show()
-
 
 # Nearest neighboor with sklearn
 nn_model = NearestNeighbors(n_neighbors=4, algorithm='auto')
 nn_model.fit(X_scaled)
 
 #New student entry
-print("\n--- New student entry ---")
+print("\n---New student entry---")
 while True:
-    user_choice = input("\nDo you want to enter a new student? (y/n): ").lower()
-    if user_choice != 'y':
+    y_n = input("\nDo you want to enter a new student? (y/n): ").lower()
+    if y_n != 'y':
         break
     try:
         print("Enter student details:")
-        f1 = float(input(f" - {features[0]}: "))
-        f2 = float(input(f" - {features[1]}: "))
-        f3 = float(input(f" - {features[2]}: "))
-        f4 = float(input(f" - {features[3]}: "))
+        f1 = float(input(f" - {features[0]}:"))
+        f2 = float(input(f" - {features[1]}:"))
+        f3 = float(input(f" - {features[2]}:"))
+        f4 = float(input(f" - {features[3]}:"))
 
         # Prep the data
         new_data = np.array([[f1, f2, f3, f4]])
@@ -95,18 +89,18 @@ while True:
 
         # Predicting
         predicted_cluster = kmean.predict(new_data_scaled)[0]
-        print(f"\n---> This student belongs to Group (Cluster): {predicted_cluster}")
+        print(f"\nThis student belongs to Group (Cluster): {predicted_cluster}")
 
         # Find Neighboor
         distances, indices = nn_model.kneighbors(new_data_scaled)
         
-        print(f"---> The 3 most similar students in the database are:")
+        print(f"The 3 most similar students in the database are:")
         similar_students = dataset.iloc[indices[0]]
         print(similar_students[features + ['Cluster']])
 
     except ValueError:
-        print("Invalid input! Please enter numbers only.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+        print("Invalid input, please enter numbers only.")
+    except Exception:
+        print(f"An error occurred: {Exception}")
 print("Exiting program.")
 
