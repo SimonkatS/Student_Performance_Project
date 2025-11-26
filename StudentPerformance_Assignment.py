@@ -100,7 +100,7 @@ while True:
 
     except ValueError:
         print("Invalid input, please enter numbers only.")
-    except Exception:
-        print(f"An error occurred: {Exception}")
+    except Exception as ex:
+        print(f"An error occurred: {ex}")
 print("Exiting program.")
 
