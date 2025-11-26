@@ -6,7 +6,8 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
 
-# GITHUB LINK TO CLONE: https://github.com/SimonkatS/MachineLearningRepo/tree/a4d1d60960ba68a6af460319d48c04356ab08dc3/StudentPerformance_Assignment
+# GITHUB LINK TO CLONE: https://github.com/SimonkatS/Student_Performance_Project
+# Dataset : https://www.kaggle.com/code/nabeelqureshitiii/student-performance-prediction/input
 
 # TO READ PROPERLY HAVE: -FOLDER BEFORE r"...\" OPEN IN VSCODE -HAVE THE SAME FOLDER/FILE NAMES IF YOU RUN ON DIFFERENT DEVICE
 try:
